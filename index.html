@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>BLACKROAD PAGER</title>
+    <style>
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --amber: #F5A623;
+            --hot-pink: #FF1D6C;
+            --electric-blue: #2979FF;
+            --violet: #9C27B0;
+            --green: #00FF88;
+            --red: #FF0000;
+            --gradient-brand: linear-gradient(135deg, var(--amber) 0%, var(--hot-pink) 38.2%, var(--violet) 61.8%, var(--electric-blue) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 40px;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: 700;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: 2px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Alert Buttons */
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.5);
+            margin: 30px 0 15px 5px;
+        }
+
+        .alert-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .alert-btn {
+            aspect-ratio: 1;
+            border-radius: 20px;
+            border: none;
+            background: var(--gradient-brand);
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .alert-btn:active {
+            transform: scale(0.95);
+        }
+
+        .alert-btn:active::before {
+            opacity: 1;
+        }
+
+        .alert-icon {
+            font-size: 40px;
+        }
+
+        .alert-label {
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Control Buttons */
+        .control-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .control-btn:active {
+            transform: scale(0.97);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .control-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        /* Quick Actions */
+        .quick-action {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-action:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-icon {
+            font-size: 32px;
+            min-width: 40px;
+        }
+
+        .quick-text {
+            flex: 1;
+        }
+
+        .quick-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .quick-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 11px;
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">BLACKROAD</div>
+        <div class="status">
+            <div class="status-dot"></div>
+            <span>PAGER READY</span>
+        </div>
+    </div>
+
+    <!-- Emergency Alerts -->
+    <div class="section-title">EMERGENCY ALERTS</div>
+    <div class="alert-grid">
+        <button class="alert-btn" onclick="sendAlert('ALERT LINEAR P1')">
+            <div class="alert-icon">🔴</div>
+            <div class="alert-label">LINEAR P1</div>
+        </button>
+        <button class="alert-btn" onclick="sendAlert('ALERT SOS')">
+            <div class="alert-icon">🚨</div>
+            <div class="alert-label">SOS</div>
+        </button>
+        <button class="alert-btn" onclick="sendAlert('ALERT SLACK CRITICAL')">
+            <div class="alert-icon">⚠️</div>
+            <div class="alert-label">SLACK CRITICAL</div>
+        </button>
+        <button class="alert-btn" onclick="sendAlert('ALERT GITHUB URGENT')">
+            <div class="alert-icon">🟠</div>
+            <div class="alert-label">GITHUB URGENT</div>
+        </button>
+    </div>
+
+    <!-- Standard Alerts -->
+    <div class="section-title">STANDARD ALERTS</div>
+    <div class="alert-grid">
+        <button class="alert-btn" style="background: linear-gradient(135deg, #9C27B0, #2979FF);" onclick="sendAlert('ALERT LINEAR P2')">
+            <div class="alert-icon">🟡</div>
+            <div class="alert-label">LINEAR P2</div>
+        </button>
+        <button class="alert-btn" style="background: linear-gradient(135deg, #2979FF, #00BCD4);" onclick="sendAlert('ALERT SLACK URGENT')">
+            <div class="alert-icon">📢</div>
+            <div class="alert-label">SLACK URGENT</div>
+        </button>
+    </div>
+
+    <!-- Controls -->
+    <div class="section-title">CONTROLS</div>
+    <div class="control-grid">
+        <button class="control-btn" onclick="sendAlert('STANDBY')">
+            <div class="control-icon">🟢</div>
+            <div>STANDBY</div>
+        </button>
+        <button class="control-btn" onclick="sendAlert('ACK')">
+            <div class="control-icon">✋</div>
+            <div>ACKNOWLEDGE</div>
+        </button>
+        <button class="control-btn" onclick="sendAlert('PING')">
+            <div class="control-icon">🔔</div>
+            <div>PING</div>
+        </button>
+        <button class="control-btn" onclick="sendAlert('STATUS')">
+            <div class="control-icon">📊</div>
+            <div>STATUS</div>
+        </button>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section-title">QUICK ACTIONS</div>
+
+    <div class="quick-action" onclick="window.location.href='file:///Users/alexa/Desktop/blackroad-homescreen.html'">
+        <div class="quick-icon">🏠</div>
+        <div class="quick-text">
+            <div class="quick-title">Main Homescreen</div>
+            <div class="quick-subtitle">Return to dashboard</div>
+        </div>
+    </div>
+
+    <div class="quick-action" onclick="window.location.href='file:///Users/alexa/Desktop/blackroad-mega-motion-gallery.html'">
+        <div class="quick-icon">🎨</div>
+        <div class="quick-text">
+            <div class="quick-title">Motion Gallery</div>
+            <div class="quick-subtitle">Visual showcase</div>
+        </div>
+    </div>
+
+    <div class="quick-action" onclick="showDocs()">
+        <div class="quick-icon">📚</div>
+        <div class="quick-text">
+            <div class="quick-title">Documentation</div>
+            <div class="quick-subtitle">7 compliance docs ready</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        BlackRoad Emergency Pager v1.0<br>
+        Compliance-Grade Supervisory Alert System
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Command sent</div>
+
+    <script>
+        // Send command to ESP32 via local server
+        async function sendAlert(command) {
+            console.log('Sending:', command);
+
+            // Show toast
+            showToast(command);
+
+            // Vibrate if supported
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
+            // Send to local bridge (requires bridge running)
+            try {
+                const response = await fetch('http://localhost:3000/alert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ command })
+                });
+
+                if (response.ok) {
+                    console.log('✅ Command sent successfully');
+                } else {
+                    console.log('⚠️ Bridge not running - use Python commands instead');
+                }
+            } catch (err) {
+                // Bridge not running - show instructions
+                console.log('💡 To enable direct control, run:');
+                console.log('   python3 /Users/alexa/Desktop/pager-bridge.py');
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function showDocs() {
+            const docs = [
+                'BLACKROAD_ESP32_PAGER_SPEC.md',
+                'BLACKROAD_PAGER_TIMING_SPEC.md',
+                'BLACKROAD_BRIDGE_SPEC.md',
+                'COMPLIANCE_POLICY_ADDENDUM.md',
+                'SUPERVISORY_ALERT_TAXONOMY_SOP.md',
+                'RISK_CONTROL_MATRIX.md',
+                'TECHNICAL_ARCHITECTURE_DIAGRAM.md'
+            ];
+
+            alert('📚 Documentation Ready:\n\n' + docs.join('\n'));
+        }
+
+        // Prevent bounce scrolling
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>
